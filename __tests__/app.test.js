@@ -40,7 +40,7 @@ describe('app', () => {
       return request(app)
         .get('/api/articles/1')
         .expect(200)
-        .then(({ body }) => {
+        .then(({ body: article }) => {
           expect.objectContaining({
             author: expect.any(String),
             title: expect.any(String),
