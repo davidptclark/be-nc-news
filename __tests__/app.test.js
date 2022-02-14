@@ -71,4 +71,69 @@ describe('app', () => {
         });
     });
   });
+  describe('PATCH -  /api/articles/:article_id', () => {
+    //404 and 500 already covered
+    test('Status: 200 - should respond with updated article', () => {
+      const voteUpdate = { inc_votes: 10 };
+      return request(app)
+        .patch('/api/articles/1')
+        .send(voteUpdate)
+        .expect(200)
+        .then(({ body: article }) => {
+          expect.objectContaining({
+            article: {
+              author: expect.any(String),
+              title: expect.any(String),
+              article_id: expect.any(Number),
+              body: expect.any(String),
+              topic: expect.any(String),
+              created_at: expect.any(Number),
+              votes: expect.any(Number),
+            },
+          });
+          expect(article.article.votes).toBe(110);
+        });
+    });
+    test('Status: 200 - should respond with updated article if number passed is negative', () => {
+      const voteUpdate = { inc_votes: -10 };
+      return request(app)
+        .patch('/api/articles/1')
+        .send(voteUpdate)
+        .expect(200)
+        .then(({ body: article }) => {
+          expect.objectContaining({
+            article: {
+              author: expect.any(String),
+              title: expect.any(String),
+              article_id: expect.any(Number),
+              body: expect.any(String),
+              topic: expect.any(String),
+              created_at: expect.any(Number),
+              votes: expect.any(Number),
+            },
+          });
+          expect(article.article.votes).toBe(90);
+        });
+    });
+    test('Status: 400 - responds with error message "bad request", when value is not a number', () => {
+      const invalidUpdate = { inc_votes: 'not-a-number' };
+      return request(app)
+        .patch('/api/articles/1')
+        .send(invalidUpdate)
+        .expect(400)
+        .then(({ body: { msg } }) => {
+          expect(msg).toBe('bad request');
+        });
+    });
+    test('Status: 400 - should respond with error message "article not found" when id is invalid', () => {
+      const voteUpdate = { inc_votes: 10 };
+      return request(app)
+        .patch('/api/articles/not-an-id')
+        .send(voteUpdate)
+        .expect(400)
+        .then(({ body: { msg } }) => {
+          expect(msg).toBe('bad request');
+        });
+    });
+  });
 });
