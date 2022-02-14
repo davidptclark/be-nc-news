@@ -35,4 +35,40 @@ describe('app', () => {
         });
     });
   });
+  describe('GET - /api/articles/:article_id', () => {
+    test('Status: 200 - should respond with specified article in an object with both key (article) and value (object)', () => {
+      return request(app)
+        .get('/api/articles/1')
+        .expect(200)
+        .then(({ body: article }) => {
+          expect.objectContaining({
+            article: {
+              author: expect.any(String),
+              title: expect.any(String),
+              article_id: expect.any(Number),
+              body: expect.any(String),
+              topic: expect.any(String),
+              created_at: expect.any(Number),
+              votes: expect.any(Number),
+            },
+          });
+        });
+    });
+    test('Status: 400 - should respond with error message: bad request', () => {
+      return request(app)
+        .get('/api/articles/not-an-id')
+        .expect(400)
+        .then(({ body: { msg } }) => {
+          expect(msg).toBe('bad request');
+        });
+    });
+    test('Status: 404 - should respond with error message for a valid but non-existent: article not found', () => {
+      return request(app)
+        .get('/api/articles/972390472')
+        .expect(404)
+        .then(({ body: { msg } }) => {
+          expect(msg).toBe('article not found');
+        });
+    });
+  });
 });
