@@ -36,19 +36,21 @@ describe('app', () => {
     });
   });
   describe('GET - /api/articles/:article_id', () => {
-    test('Status: 200 - should respond with specified article in an object', () => {
+    test('Status: 200 - should respond with specified article in an object with both key (article) and value (object)', () => {
       return request(app)
         .get('/api/articles/1')
         .expect(200)
         .then(({ body: article }) => {
           expect.objectContaining({
-            author: expect.any(String),
-            title: expect.any(String),
-            article_id: expect.any(Number),
-            body: expect.any(String),
-            topic: expect.any(String),
-            created_at: expect.any(Number),
-            votes: expect.any(Number),
+            article: {
+              author: expect.any(String),
+              title: expect.any(String),
+              article_id: expect.any(Number),
+              body: expect.any(String),
+              topic: expect.any(String),
+              created_at: expect.any(Number),
+              votes: expect.any(Number),
+            },
           });
         });
     });
