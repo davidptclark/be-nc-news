@@ -125,7 +125,7 @@ describe('app', () => {
           expect(msg).toBe('bad request');
         });
     });
-    test('Status: 400 - should respond with error message "article not found" when id is invalid', () => {
+    test('Status: 400 - should respond with error message "bad request", when id is invalid', () => {
       const voteUpdate = { inc_votes: 10 };
       return request(app)
         .patch('/api/articles/not-an-id')
