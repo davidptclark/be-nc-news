@@ -79,7 +79,7 @@ describe('app', () => {
         .patch('/api/articles/1')
         .send(voteUpdate)
         .expect(200)
-        .then(({ body: article }) => {
+        .then(({ body: { article } }) => {
           expect.objectContaining({
             article: {
               author: expect.any(String),
@@ -91,7 +91,7 @@ describe('app', () => {
               votes: expect.any(Number),
             },
           });
-          expect(article.article.votes).toBe(110);
+          expect(article.votes).toBe(110);
         });
     });
     test('Status: 200 - should respond with updated article if number passed is negative', () => {
@@ -100,7 +100,7 @@ describe('app', () => {
         .patch('/api/articles/1')
         .send(voteUpdate)
         .expect(200)
-        .then(({ body: article }) => {
+        .then(({ body: { article } }) => {
           expect.objectContaining({
             article: {
               author: expect.any(String),
@@ -112,7 +112,7 @@ describe('app', () => {
               votes: expect.any(Number),
             },
           });
-          expect(article.article.votes).toBe(90);
+          expect(article.votes).toBe(90);
         });
     });
     test('Status: 400 - responds with error message "bad request", when value is not a number', () => {
@@ -133,6 +133,16 @@ describe('app', () => {
         .expect(400)
         .then(({ body: { msg } }) => {
           expect(msg).toBe('bad request');
+        });
+    });
+    test('Status: 404 - should respond with error message for a valid but non-existent: article not found', () => {
+      const voteUpdate = { inc_votes: 10 };
+      return request(app)
+        .patch('/api/articles/972390472')
+        .send(voteUpdate)
+        .expect(404)
+        .then(({ body: { msg } }) => {
+          expect(msg).toBe('article not found');
         });
     });
   });
