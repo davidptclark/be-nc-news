@@ -24,3 +24,11 @@ exports.updateVotesById = (id, votes) => {
       return article[0];
     });
 };
+
+exports.fetchArticles = () => {
+  return db
+    .query('SELECT * FROM articles ORDER BY created_at DESC;')
+    .then(({ rows: articles }) => {
+      return articles;
+    });
+};
