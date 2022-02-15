@@ -146,4 +146,21 @@ describe('app', () => {
         });
     });
   });
+  describe('GET - /api/users', () => {
+    test('Status: 200 - should respond with an array of user objects', () => {
+      return request(app)
+        .get('/api/users')
+        .expect(200)
+        .then(({ body: users }) => {
+          expect(users).toHaveLength(4);
+          expect(users).toEqual(
+            expect.objectContaining([
+              {
+                username: expect.any(String), //Other properties exist in this object but ticket explicitly asks for just this single property
+              },
+            ])
+          );
+        });
+    }); //404 (invalid path -  handled and previously tested); 500 (server error - handled)
+  });
 });
