@@ -163,4 +163,35 @@ describe('app', () => {
         });
     }); //404 (invalid path -  handled and previously tested); 500 (server error - handled)
   });
+  describe('GET - /api/articles', () => {
+    test('Status: 200 - should respond with an array of article objects', () => {
+      return request(app)
+        .get('/api/articles')
+        .expect(200)
+        .then(({ body: articles }) => {
+          expect(articles).toHaveLength(12);
+          articles.forEach((article) => {
+            expect(article).toEqual(
+              expect.objectContaining({
+                author: expect.any(String),
+                title: expect.any(String),
+                article_id: expect.any(Number),
+                topic: expect.any(String),
+                created_at: expect.any(String), //Had to change to string given SQL formatting from number to string
+                votes: expect.any(Number),
+              })
+            );
+          });
+        });
+    });
+    test('Status: 200 - should respond with an array of article objects in descending order of date ', () => {
+      return request(app)
+        .get('/api/articles')
+        .expect(200)
+        .then(({ body: articles }) => {
+          expect(articles).toBeSortedBy('created_at', { descending: true });
+        });
+    });
+    //404 (invalid path -  handled and previously tested); 500 (server error - handled)
+  });
 });
