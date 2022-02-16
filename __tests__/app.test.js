@@ -59,7 +59,6 @@ describe('app', () => {
         .get('/api/articles/1')
         .expect(200)
         .then(({ body: { article } }) => {
-          console.log(article);
           expect(article).toEqual(
             expect.objectContaining({
               author: expect.any(String),
@@ -213,5 +212,48 @@ describe('app', () => {
         });
     });
     //404 (invalid path -  handled and previously tested); 500 (server error - handled)
+  });
+  describe('GET - /api/articles/:article_id/comments', () => {
+    test('Status: 200 - responds with an array of comments for given article_id', () => {
+      return request(app)
+        .get('/api/articles/1/comments')
+        .expect(200)
+        .then(({ body: comments }) => {
+          expect(comments).toHaveLength(11);
+          comments.forEach((comment) => {
+            expect.objectContaining({
+              comment_id: expect.any(Number),
+              votes: expect.any(Number),
+              created_at: expect.any(String),
+              author: expect.any(String),
+              body: expect.any(String),
+            });
+          });
+        });
+    });
+    test('Status: 200 - responds with an empty array if existing article has no associated comments', () => {
+      return request(app)
+        .get('/api/articles/4/comments')
+        .expect(200)
+        .then(({ body: comments }) => {
+          expect(comments).toHaveLength(0);
+        });
+    });
+    test('Status: 400 - responds with message "bad request" when passed invalid id', () => {
+      return request(app)
+        .get('/api/articles/not-an-id/comments')
+        .expect(400)
+        .then(({ body: { msg } }) => {
+          expect(msg).toBe('bad request');
+        });
+    });
+    test('Status: 404 - responds with "article not found" for valid but non-existent article', () => {
+      return request(app)
+        .get('/api/articles/100000/comments')
+        .expect(404)
+        .then(({ body: { msg } }) => {
+          expect(msg).toBe('article not found');
+        });
+    });
   });
 });
