@@ -30,8 +30,12 @@ exports.updateVotesById = (id, votes) => {
 
 exports.fetchArticles = () => {
   return db
-    .query('SELECT * FROM articles ORDER BY created_at DESC;')
+    .query(
+      // right join needed to include articles that have no comments with count of 0
+      'SELECT articles.*, COUNT(comments) AS comment_count FROM comments RIGHT JOIN articles ON articles.article_id = comments.article_id GROUP BY articles.article_id ORDER BY created_at DESC;'
+    )
     .then(({ rows: articles }) => {
+      console.log(articles);
       return articles;
     });
 };
