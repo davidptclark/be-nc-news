@@ -35,7 +35,6 @@ exports.fetchArticles = () => {
       'SELECT articles.*, COUNT(comments) AS comment_count FROM comments RIGHT JOIN articles ON articles.article_id = comments.article_id GROUP BY articles.article_id ORDER BY created_at DESC;'
     )
     .then(({ rows: articles }) => {
-      console.log(articles);
       return articles;
     });
 };
