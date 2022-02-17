@@ -349,7 +349,7 @@ describe('app', () => {
     });
     test('Status: 400 - should return message "invalid key" when body key is not valid', () => {
       const testComment = {
-        banana: 'not-registered',
+        user: 'not-registered',
         flyingbird: 'Some words.',
       };
       return request(app)
