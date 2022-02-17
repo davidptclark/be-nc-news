@@ -232,6 +232,59 @@ describe('app', () => {
           });
         });
     });
+    test("Status: 200 - should respond with an array of article objects sorted by user's choice", () => {
+      return request(app)
+        .get('/api/articles?sort_by=votes')
+        .expect(200)
+        .then(({ body: articles }) => {
+          expect(articles).toBeSortedBy('votes', { descending: true });
+        });
+    }); //default (date) is tested above
+    test("Status: 200 - should respond with an array of article objects sorted by date asc by user's choice ", () => {
+      return request(app)
+        .get('/api/articles?order=asc')
+        .expect(200)
+        .then(({ body: articles }) => {
+          expect(articles).toBeSortedBy('created_at');
+        });
+    });
+    test("Status: 200 - should respond with an array of article objects filtered by user's choice of topic", () => {
+      return request(app)
+        .get('/api/articles?topic=cats')
+        .expect(200)
+        .then(({ body: articles }) => {
+          articles.forEach((article) => {
+            expect(article).toMatchObject({
+              //Stricter matcher
+              topic: 'cats',
+            });
+          });
+        });
+    });
+    test('Status: 400 - should respond with "invalid sort query" if given an invalid sort_by query', () => {
+      return request(app)
+        .get('/api/articles?sort_by=invalid_query')
+        .expect(400)
+        .then(({ body: { msg } }) => {
+          expect(msg).toBe('invalid sort query');
+        });
+    });
+    test('Status: 400 - should respond with "invalid order query" if given an invalid order query', () => {
+      return request(app)
+        .get('/api/articles?order=invalid_query')
+        .expect(400)
+        .then(({ body: { msg } }) => {
+          expect(msg).toBe('invalid order query');
+        });
+    });
+    test('Status: 404 - should respond with "topic not found" if topic is valid and not found', () => {
+      return request(app)
+        .get('/api/articles?topic=not-a-topic')
+        .expect(404)
+        .then(({ body: { msg } }) => {
+          expect(msg).toBe('topic not found');
+        });
+    });
     //404 (invalid path -  handled and previously tested); 500 (server error - handled)
   });
   describe('GET - /api/articles/:article_id/comments', () => {
