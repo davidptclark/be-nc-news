@@ -32,7 +32,7 @@ exports.addCommentsbyArticleId = (id, reqBody) => {
         [id, username, body]
       )
       .then(({ rows: comment }) => {
-        return comment[0];
+        return comment;
       });
   }
 };

@@ -304,7 +304,9 @@ describe('app', () => {
         .send(testComment)
         .expect(404)
         .then(({ body: { msg } }) => {
-          expect(msg).toBe('user not found');
+          expect(msg).toBe(
+            'Key (author)=(not-registered) is not present in table "users".'
+          );
         });
     });
     test('Status: 404 - responds with "article not found" for valid but non-existent article', () => {
@@ -314,7 +316,9 @@ describe('app', () => {
         .send(testComment)
         .expect(404)
         .then(({ body: { msg } }) => {
-          expect(msg).toBe('article not found');
+          expect(msg).toBe(
+            'Key (article_id)=(4564574) is not present in table "articles".'
+          );
         });
     });
     test('Status: 400 - responds with message "bad request" when passed invalid id', () => {
