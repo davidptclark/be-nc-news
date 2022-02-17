@@ -277,4 +277,88 @@ describe('app', () => {
         });
     });
   });
+  describe('POST - POST /api/articles/:article_id/comments', () => {
+    test('Status: 201 - should return posted comment when given valid id and valid comment object', () => {
+      const testComment = { username: 'icellusedkars', body: 'Some words.' };
+      return request(app)
+        .post('/api/articles/4/comments')
+        .send(testComment)
+        .expect(201)
+        .then(({ body: { comment } }) => {
+          expect(comment).toEqual(
+            expect.objectContaining({
+              article_id: 4,
+              comment_id: 19, //this is NOT counting comments by user but just total number of comments
+              votes: 0,
+              created_at: expect.any(String),
+              author: 'icellusedkars', //CAREFUL: this user MUST be registered and be within users table before commenting otherwise violates FK constraint
+              body: 'Some words.',
+            })
+          );
+        });
+    });
+    test('Status: 404 - should respond with error message for a valid but unregistered user', () => {
+      const testComment = { username: 'not-registered', body: 'Some words.' };
+      return request(app)
+        .post('/api/articles/4/comments')
+        .send(testComment)
+        .expect(404)
+        .then(({ body: { msg } }) => {
+          expect(msg).toBe('user not found');
+        });
+    });
+    test('Status: 404 - responds with "article not found" for valid but non-existent article', () => {
+      const testComment = { username: 'icellusedkars', body: 'Some words.' };
+      return request(app)
+        .post('/api/articles/4564574/comments')
+        .send(testComment)
+        .expect(404)
+        .then(({ body: { msg } }) => {
+          expect(msg).toBe('article not found');
+        });
+    });
+    test('Status: 400 - responds with message "bad request" when passed invalid id', () => {
+      const testComment = { username: 'icellusedkars', body: 'Some words.' };
+      return request(app)
+        .post('/api/articles/not-an-id/comments')
+        .send(testComment)
+        .expect(400)
+        .then(({ body: { msg } }) => {
+          expect(msg).toBe('bad request');
+        });
+    });
+    test('Status: 400 - responds with message "missing fields in request" when passed object with fewer than one key', () => {
+      const testComment = { username: 'icellusedkars' };
+      return request(app)
+        .post('/api/articles/4/comments')
+        .send(testComment)
+        .expect(400)
+        .then(({ body: { msg } }) => {
+          expect(msg).toBe('missing fields in request');
+        });
+    });
+    test('Status: 400 - should return message "invalid key" when username key is not valid', () => {
+      const testComment = { banana: 'icellusedkars', body: 'Some words.' };
+      return request(app)
+        .post('/api/articles/4/comments')
+        .send(testComment)
+        .expect(400)
+        .then(({ body: { msg } }) => {
+          expect(msg).toBe('invalid key');
+        });
+    });
+    test('Status: 400 - should return message "invalid key" when body key is not valid', () => {
+      const testComment = {
+        banana: 'not-registered',
+        flyingbird: 'Some words.',
+      };
+      return request(app)
+        .post('/api/articles/4/comments')
+        .send(testComment)
+        .expect(400)
+        .then(({ body: { msg } }) => {
+          expect(msg).toBe('invalid key');
+        });
+    });
+  });
 });
