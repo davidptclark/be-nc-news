@@ -6,6 +6,8 @@ _Image via https://flic.kr/p/65rC2n under [(CC BY-NC-SA 2.0)](https://creativeco
 
 Hello! 👋 Welcome to my news API.
 
+## 💭 Description
+
 This API allows users to create, read, update and delete information by interacting with the database. To view all available endpoints, please visit the hosted version using the URL below.
 
 ---
