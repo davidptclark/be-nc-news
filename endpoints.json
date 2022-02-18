@@ -9,6 +9,13 @@
       "topics": [{ "slug": "football", "description": "Footie!" }]
     }
   },
+  "GET /api/users": {
+    "description": "serves an array of all users",
+    "queries": [],
+    "exampleResponse": {
+      "topics": [{ "username": "Maru" }, { "username": "Endo" }]
+    }
+  },
   "GET /api/articles": {
     "description": "serves an array of all topics",
     "queries": ["author", "topic", "sort_by", "order"],
@@ -19,9 +26,78 @@
           "topic": "cooking",
           "author": "weegembump",
           "body": "Text from the article..",
-          "created_at": 1527695953341
+          "created_at": 1527695953341,
+          "votes": 11,
+          "comment_count": 1
         }
       ]
     }
+  },
+  "GET /api/articles/:article_id": {
+    "description": "returns article by article id",
+    "queries": [],
+    "exampleResponse": {
+      "article": {
+        "article_id": 11,
+        "title": "Seafood substitutions are increasing",
+        "topic": "cooking",
+        "author": "weegembump",
+        "body": "Text from the article..",
+        "created_at": 1527695953341,
+        "comment_count": 5,
+        "votes": 1
+      }
+    }
+  },
+  "PATCH /api/articles/:article_id": {
+    "description": "updates article votes by article id with given request body and returns updated article",
+    "queries": [],
+    "exampleRequestBody": { "inc_votes": 1 },
+    "exampleResponse": {
+      "article": {
+        "article_id": 1,
+        "title": "Seafood substitutions are increasing",
+        "topic": "cooking",
+        "author": "weegembump",
+        "body": "Text from the article..",
+        "created_at": 1527695953341,
+        "votes": 1,
+        "comment_count": 0
+      }
+    }
+  },
+  "GET /api/articles/:article_id/comments": {
+    "description": "returns an array of comments for a given article",
+    "queries": [],
+    "exampleResponse": [
+      {
+        "comment_id": 1,
+        "votes": 2,
+        "created_at": 1527695953341,
+        "author": "Maru",
+        "body": "Good read.",
+        "article_id": 1
+      }
+    ]
+  },
+  "POST /api/articles/:article_id/comments": {
+    "description": "adds comment and returns posted comment",
+    "queries": [],
+    "exampleRequestBody": { "username": "Ura", "body": "Slow burner." },
+    "exampleResponse": [
+      {
+        "comment_id": 19,
+        "votes": 0,
+        "created_at": 1527695953341,
+        "author": "Ura",
+        "body": "Slow burner.",
+        "article_id": 1
+      }
+    ]
+  },
+  "DELETE /api/comments/:comment_id": {
+    "description": "deletes specified comment from database and returns no body",
+    "queries": [],
+    "exampleResponse": {}
   }
 }
