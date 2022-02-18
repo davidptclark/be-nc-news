@@ -1,5 +1,7 @@
 # My News API
 
+![Imgur](https://i.imgur.com/YmjOXbH.jpg)
+
 Hello! Welcome to my news API.
 
 This API allows users to create, read, update and delete information by interacting with the database. To view all available endpoints, please visit the hosted version using the URL below.
