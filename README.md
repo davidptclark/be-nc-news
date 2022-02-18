@@ -14,7 +14,7 @@ This API allows users to create, read, update and delete information by interact
 
 https://davidc-nc-news.herokuapp.com/api
 
-Following this URL will produce a JSON file that will list all available endpoints, with available queries, example request bodies, and example responses.
+Following this URL will produce a JSON file that will list all available endpoints: with available queries, example request bodies, and example responses.
 
 For example:
 
