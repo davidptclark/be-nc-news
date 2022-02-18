@@ -45,13 +45,13 @@ Simply run `npm install` to install the necessary dependencies required.
 
 This repository does not contain the necessary .env files that set the value of PGDATABASE to a specific database, as they are part of the gitignore and will only be stored locally. After cloning, you will need to create two .env files in the root directory:
 
-_.env.development_
+`.env.development`
 
 ```
 PGDATABASE=nc_news
 ```
 
-_.env.test_
+`.env.test`
 
 ```
 PGDATABASE=nc_news_test
