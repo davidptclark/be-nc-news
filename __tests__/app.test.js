@@ -418,4 +418,35 @@ describe('app', () => {
         });
     });
   });
+  describe('DELETE - /api/comments/:comment_id', () => {
+    test('Status: 204 - should delete comment by given id and return no content', () => {
+      return request(app).delete('/api/comments/1').expect(204);
+    });
+    test('Status: 204 - comment table contains one fewer comment', () => {
+      return request(app)
+        .delete('/api/comments/1')
+        .expect(204)
+        .then(() => {
+          return db.query('SELECT * FROM comments').then(({ rows }) => {
+            expect(rows).toHaveLength(17);
+          });
+        });
+    });
+    test('Status: 400 - should return "bad request" when passed an invalid id ', () => {
+      return request(app)
+        .delete('/api/comments/not-an-id')
+        .expect(400)
+        .then(({ body: { msg } }) => {
+          expect(msg).toEqual('bad request');
+        });
+    });
+    test('Status: 404 - should return "comment does not exist" when passed a valid but non-existent comment id', () => {
+      return request(app)
+        .delete('/api/comments/2363457')
+        .expect(404)
+        .then(({ body: { msg } }) => {
+          expect(msg).toEqual('comment does not exist');
+        });
+    });
+  });
 });
