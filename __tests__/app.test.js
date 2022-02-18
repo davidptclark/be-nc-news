@@ -420,12 +420,7 @@ describe('app', () => {
   });
   describe('DELETE - /api/comments/:comment_id', () => {
     test('Status: 204 - should delete comment by given id and return no content', () => {
-      return request(app)
-        .delete('/api/comments/1')
-        .expect(204)
-        .then(({ body }) => {
-          expect(body).toEqual({});
-        });
+      return request(app).delete('/api/comments/1').expect(204);
     });
     test('Status: 204 - comment table contains one fewer comment', () => {
       return request(app)
