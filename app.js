@@ -9,6 +9,7 @@ const {
 const {
   getCommentsByArticleId,
   postCommentsByArticleId,
+  deleteCommentById,
 } = require('./controllers/comments.controller');
 const {
   handle404,
@@ -30,6 +31,8 @@ app.get('/api/articles/:article_id/comments', getCommentsByArticleId);
 app.post('/api/articles/:article_id/comments', postCommentsByArticleId);
 
 app.get('/api/users', getUsers);
+
+app.delete('/api/comments/:comment_id', deleteCommentById);
 
 app.all('/*', handle404); //Using app.all to apply this controller function to all bad paths
 app.use(handleCustomErrors);
