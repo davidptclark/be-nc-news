@@ -419,12 +419,22 @@ describe('app', () => {
     });
   });
   describe('DELETE - /api/comments/:comment_id', () => {
-    test('Status: 204 - should delete comment by given id and return deleted comment object', () => {
+    test('Status: 204 - should delete comment by given id and return no content', () => {
       return request(app)
         .delete('/api/comments/1')
         .expect(204)
         .then(({ body }) => {
           expect(body).toEqual({});
+        });
+    });
+    test('Status: 204 - comment table contains one fewer comment', () => {
+      return request(app)
+        .delete('/api/comments/1')
+        .expect(204)
+        .then(() => {
+          return db.query('SELECT * FROM comments').then(({ rows }) => {
+            expect(rows).toHaveLength(17);
+          });
         });
     });
     test('Status: 400 - should return "bad request" when passed an invalid id ', () => {
