@@ -1,10 +1,24 @@
-# 🗞️ My News API 🗞️
+<h1 align="center">  🗞️ My News API 🗞️ </h1> <br>
 
-![Imgur](https://i.imgur.com/YmjOXbH.jpg)
+<br />
 
-<sup><sub>_Image via https://flic.kr/p/65rC2n under [(CC BY-NC-SA 2.0)](https://creativecommons.org/licenses/by-nc-sa/2.0/)_</sub></sup>
+<p align="center">
+  <a href="newsstand">
+    <img alt="newsstand" title="newsstand" src="https://i.imgur.com/YmjOXbH.jpg" width="450">
+  </a>
+</p>
 
+<p align="center">
+    <sup><sub>Image via <a href="https://flic.kr/p/65rC2n">Flickr</a> under <a href="https://creativecommons.org/licenses/by-nc-sa/2.0/">(CC BY-NC-SA 2.0)</a></sub></sup>
+</p>
+
+<br />
+
+<p align="center">
 Hello! 👋 Welcome to my news API.
+</p>
+
+<br />
 
 ## 💭 Description
 
