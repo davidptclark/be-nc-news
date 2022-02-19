@@ -49,11 +49,11 @@ This repository does not contain the necessary .env files that set the value of 
 
 `.env.development`
 
-![.env.development](https://i.imgur.com/YiaowvB.png)
+![.env.development](https://i.imgur.com/rpHqxYq.png)
 
 `.env.test`
 
-![.env.test](https://i.imgur.com/53y0808.png)
+![.env.test](https://i.imgur.com/kgTX2Cx.png)
 
 ### 🌱 Seeding local databases:
 
