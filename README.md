@@ -49,15 +49,11 @@ This repository does not contain the necessary .env files that set the value of 
 
 `.env.development`
 
-```
-PGDATABASE=nc_news
-```
+![.env.development](https://i.imgur.com/YiaowvB.png)
 
 `.env.test`
 
-```
-PGDATABASE=nc_news_test
-```
+![.env.test](https://i.imgur.com/53y0808.png)
 
 ### 🌱 Seeding local databases:
 
