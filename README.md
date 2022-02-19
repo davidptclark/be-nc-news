@@ -2,7 +2,7 @@
 
 ![Imgur](https://i.imgur.com/YmjOXbH.jpg)
 
-_Image via https://flic.kr/p/65rC2n under [(CC BY-NC-SA 2.0)](https://creativecommons.org/licenses/by-nc-sa/2.0/)_
+<sup>_Image via https://flic.kr/p/65rC2n under [(CC BY-NC-SA 2.0)](https://creativecommons.org/licenses/by-nc-sa/2.0/)_</sup>
 
 Hello! 👋 Welcome to my news API.
 
