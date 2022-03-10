@@ -38,6 +38,7 @@ exports.fetchArticles = async (
     'author',
     'body',
     'created_at',
+    'comment_count',
     'votes',
   ];
 
