@@ -3,7 +3,6 @@ const {
   updateVotesById,
   fetchArticles,
 } = require('../models/articles.model');
-const { checkTopicExists } = require('../models/topics.model');
 
 exports.getArticleById = (req, res, next) => {
   const { article_id: id } = req.params;
@@ -30,7 +29,5 @@ exports.getArticles = (req, res, next) => {
     .then((articles) => {
       res.status(200).send(articles);
     })
-    .catch((err) => {
-      next(err);
-    });
+    .catch(next);
 };

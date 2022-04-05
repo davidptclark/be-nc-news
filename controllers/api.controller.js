@@ -5,7 +5,5 @@ exports.getEndpoints = (req, res, next) => {
     .then((descriptions) => {
       res.status(200).send({ descriptions });
     })
-    .catch((err) => {
-      next(err);
-    });
+    .catch(next);
 };

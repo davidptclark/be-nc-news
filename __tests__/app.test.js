@@ -254,6 +254,7 @@ describe('app', () => {
         .expect(200)
         .then(({ body: articles }) => {
           articles.forEach((article) => {
+            expect(articles).toHaveLength(1);
             expect(article).toMatchObject({
               //Stricter matcher
               topic: 'cats',
@@ -285,7 +286,16 @@ describe('app', () => {
           expect(msg).toBe('topic not found');
         });
     });
-    //404 (invalid path -  handled and previously tested); 500 (server error - handled)
+    test("Status: 200 - valid `topic` query, but has no articles responds with an empty array of articles", () => {
+      return request(app)
+        .get('/api/articles?topic=paper')
+        .expect(200)
+        .then(({ body: articles }) => {
+          articles.forEach((article) => {
+            expect(article).toHaveLength(0);
+          });
+        });
+    });
   });
   describe('GET - /api/articles/:article_id/comments', () => {
     test('Status: 200 - responds with an array of comments for given article_id', () => {
@@ -345,6 +355,25 @@ describe('app', () => {
               votes: 0,
               created_at: expect.any(String),
               author: 'icellusedkars', //CAREFUL: this user MUST be registered and be within users table before commenting otherwise violates FK constraint
+              body: 'Some words.',
+            })
+          );
+        });
+    });
+    test('Status: 201 - should return posted comment when given valid id and valid comment object even with redundant properties', () => {
+      const testComment = { username: 'icellusedkars', body: 'Some words.', magic: false };
+      return request(app)
+        .post('/api/articles/4/comments')
+        .send(testComment)
+        .expect(201)
+        .then(({ body: { comment } }) => {
+          expect(comment).toEqual(
+            expect.objectContaining({
+              article_id: 4,
+              comment_id: 19, 
+              votes: 0,
+              created_at: expect.any(String),
+              author: 'icellusedkars', 
               body: 'Some words.',
             })
           );
