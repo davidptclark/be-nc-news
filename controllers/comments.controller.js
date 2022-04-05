@@ -11,22 +11,17 @@ exports.getCommentsByArticleId = (req, res, next) => {
     .then(([comments]) => {
       res.status(200).send(comments);
     })
-    .catch((err) => {
-      next(err);
-    });
+    .catch(next);
 };
 
 exports.postCommentsByArticleId = (req, res, next) => {
   const { article_id: id } = req.params;
-  const { username: user } = req.body;
   const body = req.body;
   addCommentsbyArticleId(id, body)
     .then((body) => {
       res.status(201).send({ comment: body[0] });
     })
-    .catch((err) => {
-      next(err);
-    });
+    .catch(next);
 };
 
 exports.deleteCommentById = (req, res, next) => {
@@ -35,7 +30,5 @@ exports.deleteCommentById = (req, res, next) => {
     .then(() => {
       res.sendStatus(204);
     })
-    .catch((err) => {
-      next(err);
-    });
+    .catch(next);
 };
