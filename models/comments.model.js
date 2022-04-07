@@ -1,8 +1,8 @@
-const db = require('../db/connection');
+const db = require("../db/connection");
 
 exports.fetchCommentsByArticleId = async (id) => {
   const { rows: comments } = await db.query(
-    'SELECT comment_id, votes, created_at, author, body FROM comments WHERE article_id = $1;',
+    "SELECT comment_id, votes, created_at, author, body FROM comments WHERE article_id = $1;",
     [id]
   );
 
@@ -17,16 +17,16 @@ exports.addCommentsbyArticleId = async (id, reqBody) => {
   if (reqKeys.length < 2) {
     return Promise.reject({
       status: 400,
-      msg: 'missing fields in request',
+      msg: "missing fields in request",
     });
-  } else if (!reqKeys.includes('username') || !reqKeys.includes('body')) {
+  } else if (!reqKeys.includes("username") || !reqKeys.includes("body")) {
     return Promise.reject({
       status: 400,
-      msg: 'invalid key',
+      msg: "invalid key",
     });
   } else {
     const { rows: comment } = await db.query(
-      'INSERT INTO comments (article_id, author, body) VALUES ($1, $2, $3) RETURNING *;',
+      "INSERT INTO comments (article_id, author, body) VALUES ($1, $2, $3) RETURNING *;",
       [id, username, body]
     );
 
@@ -36,11 +36,24 @@ exports.addCommentsbyArticleId = async (id, reqBody) => {
 
 exports.removeCommentById = async (id) => {
   const { rows } = await db.query(
-    'DELETE FROM comments WHERE comment_id = $1 RETURNING *;',
+    "DELETE FROM comments WHERE comment_id = $1 RETURNING *;",
     [id]
   );
 
   if (rows.length === 0) {
-    return Promise.reject({ status: 404, msg: 'comment does not exist' });
+    return Promise.reject({ status: 404, msg: "comment does not exist" });
   }
+};
+
+exports.changeVotesByCommentId = async (id, inc_votes) => {
+  const { rows: comment } = await db.query(
+    "UPDATE comments SET votes = votes + $1 WHERE comment_id = $2 RETURNING *",
+    [inc_votes, id]
+  );
+
+  if (comment.length === 0) {
+    return Promise.reject({ status: 404, msg: "comment does not exist" });
+  }
+
+  return comment[0];
 };
