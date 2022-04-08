@@ -16,6 +16,19 @@
       "topics": [{ "username": "Maru" }, { "username": "Endo" }]
     }
   },
+  "GET /api/users/:username": {
+    "description": "serves a single user object",
+    "queries": [],
+    "exampleResponse": {
+      "user": [
+        {
+          "username": "Maru",
+          "name": "Maru Jones",
+          "avatar_url": "https://example.com"
+        }
+      ]
+    }
+  },
   "GET /api/articles": {
     "description": "serves an array of all topics",
     "queries": ["author", "topic", "sort_by", "order"],
@@ -99,5 +112,20 @@
     "description": "deletes specified comment from database and returns no body",
     "queries": [],
     "exampleResponse": {}
+  },
+  "PATCH /api/comments/:comment_id": {
+    "description": "updates comment votes by comment id with given request body and returns updated article",
+    "queries": [],
+    "exampleRequestBody": { "inc_votes": 1 },
+    "exampleResponse": {
+      "article": {
+        "comment_id": 1,
+        "body": "Oh, I've got compassion running out of my nose, pal! I'm the Sultan of Sentiment!",
+        "votes": 16,
+        "author": "butter_bridge",
+        "article_id": 9,
+        "created_at": 1586179020000
+      }
+    }
   }
 }
