@@ -73,7 +73,7 @@ This repository does not contain the necessary .env files that set the value of 
 
 To start the API, run the command `npm start`. This will instruct the API to listen on the default port: 9090.
 
-If you would like to reinitialise the database, use the command `npm run setup-db` followed by `npm run seed` to re-seed the database.
+If you would like to reinitialise the database, use the command `npm run setup-dbs` followed by `npm run seed` to re-seed the database.
 
 ### 🧪 Running tests:
 
